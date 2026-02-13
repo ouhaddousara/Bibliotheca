@@ -30,7 +30,7 @@
                         value="{{ old('isbn') }}" 
                         required
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 @error('isbn') border-red-500 @enderror"
-                        placeholder="978-2-266-31927-1"
+                        
                     >
                     @error('isbn')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -49,7 +49,7 @@
                         value="{{ old('title') }}" 
                         required
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 @error('title') border-red-500 @enderror"
-                        placeholder="Le Petit Prince"
+                        
                     >
                     @error('title')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -68,7 +68,7 @@
                         value="{{ old('author') }}" 
                         required
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 @error('author') border-red-500 @enderror"
-                        placeholder="Antoine de Saint-Exupéry"
+                        
                     >
                     @error('author')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>

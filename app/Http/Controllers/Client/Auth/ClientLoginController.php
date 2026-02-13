@@ -3,17 +3,16 @@
 namespace App\Http\Controllers\Client\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Client\LoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash; // ← AJOUTÉ
+use Illuminate\Support\Facades\Log;  // ← AJOUTÉ
+use App\Models\Member;                // ← AJOUTÉ
 
 class ClientLoginController extends Controller
 {
     /**
-     * Display the client login form
-     *
-     * @return \Illuminate\View\View
+     * Show the client login form.
      */
     public function showLoginForm()
     {
@@ -21,92 +20,89 @@ class ClientLoginController extends Controller
     }
 
     /**
-     * Handle client login attempt
-     *
-     * @param LoginRequest $request
-     * @return \Illuminate\Http\RedirectResponse
+     * Show the client registration form.
      */
-    public function login(LoginRequest $request)
+    public function showRegisterForm()
     {
-        $credentials = $request->only('email', 'password');
-
-        // Check if member is active
-        $member = \App\Models\Member::where('email', $request->email)->first();
-        
-        if ($member && !$member->is_active) {
-            Log::channel('library')->warning('Tentative de connexion membre désactivé', [
-                'member_id' => $member->id,
-                'email' => $request->email,
-                'ip_address' => $request->ip(),
-            ]);
-
-            return back()
-                ->withErrors([
-                    'email' => '⚠️ Votre compte a été désactivé. Veuillez contacter l\'administrateur.',
-                ])
-                ->withInput($request->only('email'));
-        }
-
-        // Attempt to authenticate
-        if (Auth::guard('client')->attempt($credentials, $request->filled('remember'))) {
-            // Regenerate session to prevent fixation attacks
-            $request->session()->regenerate();
-
-            // Log successful login
-            Log::channel('library')->info('Adhérent connecté', [
-                'member_id' => Auth::guard('client')->id(),
-                'member_email' => Auth::guard('client')->user()->email,
-                'member_name' => Auth::guard('client')->user()->firstname . ' ' . Auth::guard('client')->user()->lastname,
-                'ip_address' => $request->ip(),
-            ]);
-
-            // Redirect to client dashboard
-            return redirect()->intended(route('client.dashboard'))
-                ->with('success', '👋 Bonjour ' . Auth::guard('client')->user()->firstname . ' ! Content de vous revoir.');
-        }
-
-        // Log failed login attempt
-        Log::channel('library')->warning('Tentative de connexion échouée (adhérent)', [
-            'email' => $request->email,
-            'ip_address' => $request->ip(),
-        ]);
-
-        // Return back with error
-        return back()
-            ->withErrors([
-                'email' => __('auth.failed'),
-            ])
-            ->withInput($request->only('email', 'remember'));
+        return view('client.auth.register');
     }
 
     /**
-     * Handle client logout
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * Handle client login attempt.
      */
-    public function logout(Request $request)
+    public function login(Request $request)
     {
-        $memberEmail = Auth::guard('client')->user()->email ?? 'N/A';
-        $memberName = Auth::guard('client')->user()->firstname ?? 'N/A';
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
-        // Log logout
-        Log::channel('library')->info('Adhérent déconnecté', [
-            'member_id' => Auth::guard('client')->id(),
-            'member_email' => $memberEmail,
-            'member_name' => $memberName,
+        if (Auth::guard('client')->attempt($credentials, $request->filled('remember'))) {
+            $request->session()->regenerate();
+            return redirect()->intended(route('client.dashboard'))
+                ->with('success', '👋 Bonjour ' . Auth::guard('client')->user()->firstname . ' !');
+        }
+
+        return back()->withErrors(['email' => 'Email ou mot de passe incorrect'])->onlyInput('email');
+    }
+
+    /**
+     * Handle client registration.
+     */
+    public function register(Request $request)
+    {
+        // Validation des données
+        $validated = $request->validate([
+            'lastname' => 'required|string|max:255',
+            'firstname' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:members,email',
+            'phone' => 'nullable|string|max:20',
+            'address' => 'nullable|string',
+            'password' => 'required|string|min:8|confirmed',
+            'password_confirmation' => 'required|string|min:8',
+        ], [
+            'lastname.required' => 'Le nom est obligatoire',
+            'firstname.required' => 'Le prénom est obligatoire',
+            'email.required' => 'L\'email est obligatoire',
+            'email.unique' => 'Cet email est déjà utilisé',
+            'password.required' => 'Le mot de passe est obligatoire',
+            'password.min' => 'Le mot de passe doit contenir au moins 8 caractères',
+            'password.confirmed' => 'Les mots de passe ne correspondent pas',
+        ]);
+
+        // Création du compte adhérent
+        $member = Member::create([
+            'lastname' => $validated['lastname'],
+            'firstname' => $validated['firstname'],
+            'email' => $validated['email'],
+            'phone' => $validated['phone'] ?? null,
+            'address' => $validated['address'] ?? null,
+            'password' => Hash::make($validated['password']),
+            'is_active' => true,
+        ]);
+
+        // Journalisation
+        Log::channel('library')->info('Nouvel adhérent inscrit', [
+            'member_id' => $member->id,
+            'member_email' => $member->email,
             'ip_address' => $request->ip(),
         ]);
 
-        // Logout
-        Auth::guard('client')->logout();
+        // Connexion automatique après inscription
+        Auth::guard('client')->login($member);
 
-        // Invalidate session
+        return redirect()->route('client.dashboard')
+            ->with('success', '🎉 Félicitations ' . $member->firstname . ' ! Votre compte a été créé avec succès. Bienvenue dans notre bibliothèque !');
+    }
+
+    /**
+     * Handle client logout.
+     */
+    public function logout(Request $request)
+    {
+        Auth::guard('client')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
-        // Redirect to login with success message
-        return redirect()->route('client.login')
-            ->with('success', '👋 Déconnexion réussie ! À bientôt.');
+        return redirect()->route('client.login')->with('success', 'Déconnexion réussie');
     }
 }

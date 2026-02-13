@@ -94,11 +94,7 @@
             </form>
         </div>
 
-        <!-- Footer -->
-        <div class="p-4 text-center text-xs text-indigo-300 border-t border-indigo-700">
-            <p>© {{ date('Y') }} Bibliothèque</p>
-            <p class="mt-1">Version 1.0</p>
-        </div>
+        
     </div>
 
     <!-- Main Content -->

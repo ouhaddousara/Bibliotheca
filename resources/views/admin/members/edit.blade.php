@@ -31,7 +31,7 @@
                         value="{{ old('lastname', $member->lastname) }}" 
                         required
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 @error('lastname') border-red-500 @enderror"
-                        placeholder="Dupont"
+                        
                     >
                     @error('lastname')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -50,7 +50,7 @@
                         value="{{ old('firstname', $member->firstname) }}" 
                         required
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 @error('firstname') border-red-500 @enderror"
-                        placeholder="Jean"
+                        
                     >
                     @error('firstname')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -69,7 +69,7 @@
                         value="{{ old('email', $member->email) }}" 
                         required
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 @error('email') border-red-500 @enderror"
-                        placeholder="jean.dupont@email.fr"
+                        
                     >
                     @error('email')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -87,7 +87,7 @@
                         name="phone" 
                         value="{{ old('phone', $member->phone) }}" 
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                        placeholder="01 23 45 67 89"
+                        
                     >
                 </div>
 
@@ -101,7 +101,7 @@
                         name="address" 
                         rows="3"
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                        placeholder="123 Rue de la Bibliothèque, 75000 Paris">{{ old('address', $member->address) }}</textarea>
+                        >{{ old('address', $member->address) }}</textarea>
                 </div>
 
                 <!-- Nouveau mot de passe (optionnel) -->

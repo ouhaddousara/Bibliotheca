@@ -102,12 +102,41 @@
                     <i class="fas fa-user-shield mr-1"></i>Espace Administrateur
                 </a>
             </div>
+        <!-- ... code existant (formulaire de login) ... -->
+
+<!-- Section "Créer un compte" - VERSION MINIMALISTE -->
+<div class="mt-8 text-center">
+    <div class="inline-flex items-center px-4 py-2 bg-emerald-50 rounded-full mb-4">
+        <i class="fas fa-user-plus text-emerald-600 mr-2"></i>
+        <span class="text-sm font-semibold text-emerald-800">Nouveau ici ?</span>
+    </div>
+    
+    
+    
+    <a href="{{ route('client.register') }}" 
+       class="inline-flex items-center bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
+        <i class="fas fa-user-plus mr-2"></i>
+        Créer un compte gratuit
+        <i class="fas fa-arrow-right ml-2 text-sm"></i>
+    </a>
+    
+    <div class="mt-4 flex items-center justify-center space-x-2 text-xs text-gray-500">
+        <i class="fas fa-check-circle text-emerald-600"></i>
+        <span>Gratuit</span>
+        <span>•</span>
+        <span>Sécurisé</span>
+        <span>•</span>
+        <span>Instantané</span>
+    </div>
+</div>
+
+<!-- ... code existant (footer) ... -->
         </div>
 
         <!-- Footer -->
         <div class="bg-gray-50 px-8 py-4 text-center text-sm text-gray-600 border-t">
             <p> <strong>Bibliothèque</strong> - Votre culture à portée de main</p>
-            <p class="mt-1">Première visite ? <a href="mailto:biblio@contact.fr" class="text-emerald-600 hover:text-emerald-800">Créez votre compte</a></p>
+            
         </div>
     </div>
 
