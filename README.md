@@ -24,8 +24,6 @@
 - [Test Credentials](#test-credentials)
 - [Project Structure](#project-structure)
 - [Backup System](#backup-system)
-- [Roadmap](#roadmap)
-- [Contributing](#contributing)
 
 ---
 
@@ -238,37 +236,3 @@ backups/backup_client_YYYYMMDD_HHmmss/
 This allows safe rollback when iterating on the client portal without affecting the stable admin module.
 
 ---
-
-## Roadmap
-
-- [ ] Client book browsing with search and filters
-- [ ] Loan request and approval workflow
-- [ ] Personal reading statistics for clients
-- [ ] Email notifications for due dates
-- [ ] REST API layer for mobile client support
-- [ ] Docker + docker-compose for reproducible environments
-- [ ] CI/CD pipeline via GitHub Actions
-- [ ] Role-based access control (RBAC) refinement
-
----
-
-## Contributing
-
-Contributions are welcome. Please follow the standard GitHub flow:
-
-```bash
-# Create a feature branch
-git checkout -b feature/your-feature-name
-
-# Commit your changes with a clear message
-git commit -m "feat: add book search with filters"
-
-# Push and open a Pull Request
-git push origin feature/your-feature-name
-```
-
-Please ensure all existing tests pass before opening a PR:
-
-```bash
-php artisan test
-```
