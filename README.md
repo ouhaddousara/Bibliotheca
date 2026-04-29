@@ -32,7 +32,7 @@
 
 ## Overview
 
-**Gestion Bibliothèque** is a web-based library management platform designed to streamline the day-to-day operations of a library. It provides two distinct interfaces: an **Admin panel** for librarians to manage the full catalog and user activity, and a **Client portal** for members to browse available books and track their loan history.
+**Bibliotheca** is a web-based library management platform designed to streamline the day-to-day operations of a library. It provides two distinct interfaces: an **Admin panel** for librarians to manage the full catalog and user activity, and a **Client portal** for members to browse available books and track their loan history.
 
 The application follows Laravel's MVC conventions with clearly separated routing and controller namespaces for each role, ensuring clean isolation between admin and client concerns.
 
