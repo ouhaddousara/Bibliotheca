@@ -118,8 +118,8 @@ Ensure the following are installed on your machine:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/ouhaddousara/Gestion_Bibliotheque.git
-cd Gestion_Bibliotheque
+git clone https://github.com/ouhaddousara/Bibliotheca.git
+cd Bibliotheca
 
 # 2. Install PHP dependencies
 composer install
@@ -196,7 +196,7 @@ The application will be available at `http://localhost:8000`.
 ## Project Structure
 
 ```
-Gestion_Bibliotheque/
+Bibliotheca/
 ├── app/
 │   └── Http/
 │       └── Controllers/
@@ -283,5 +283,5 @@ This project is licensed under the [MIT License](LICENSE).
 ---
 
 <p align="center">
-  Built with ❤️ using <a href="https://laravel.com">Laravel</a>
+  Built using <a href="https://laravel.com">Laravel</a>
 </p>
