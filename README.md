@@ -273,15 +273,3 @@ Please ensure all existing tests pass before opening a PR:
 ```bash
 php artisan test
 ```
-
----
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
----
-
-<p align="center">
-  Built using <a href="https://laravel.com">Laravel</a>
-</p>
