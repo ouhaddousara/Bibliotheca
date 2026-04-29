@@ -26,7 +26,6 @@
 - [Backup System](#backup-system)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
-- [License](#license)
 
 ---
 
